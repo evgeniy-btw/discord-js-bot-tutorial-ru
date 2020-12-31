@@ -15,5 +15,7 @@ https://nodejs.org/en/ - Версия 14.15.3 LTS
 
 Также для удобства скачайте Visual Studio Code - https://code.visualstudio.com/
 
-Теперь октрываем папку с проектом в VSC, CTRL+SHIFT+` - открыть терминал
-В терминале пишем npm install`
+Теперь октрываем папку с проектом в VSC, CTRL+SHIFT+`
+- открыть терминал
+
+В терминале пишем npm install
