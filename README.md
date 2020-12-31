@@ -1,6 +1,7 @@
 # discord-js-bot-tutorial-ru
+____
 Туториал по созданию ботов для дискорда
-
+____
 Первым делом заходим на сайт https://discord.com/developers/applications
 New Application, тыкаем на вкладку Bot и create bot.
 
