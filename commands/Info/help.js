@@ -1,0 +1,64 @@
+const { MessageEmbed } = require("discord.js");
+const { stripIndents } = require("common-tags");
+const ms = require('ms')
+module.exports = {
+    name: "help",
+    aliases: ["h"],
+    category: "info",
+    description: "Узнать все команды бота",
+
+    run: async (client, message, args) => {
+        if (args[0]) {
+            return getCMD(client, message, args[0]);
+        } else {
+            return getAll(client, message);
+        }
+    },
+};
+
+function getAll(client, message) {
+    const embed = new MessageEmbed().setAuthor(`${message.author.username}, Все команды: ` , message.author.displayAvatarURL()).setColor('#fb644c').setThumbnail(client.user.displayAvatarURL());
+
+    const commands = (category) => {
+        return client.commands
+            .filter((cmd) => cmd.category === category)
+            .map((cmd) => `- \`${cmd.name}\``)
+            .join(" ");
+    };
+
+    const info = client.categories
+        .map(
+            (cat) =>
+                stripIndents`**${cat[0].toUpperCase() + cat.slice(1)}** (${client.commands.filter(cmd => cmd.category == cat).size}) : \n${commands(
+                    cat
+                )}`
+        )
+        .reduce((string, category) => string + "\n" + category);
+    embed.setFooter(`Всего ${client.commands.size} команд`, message.author.displayAvatarURL())
+    return message.channel.send(embed.setDescription(info));
+}
+
+function getCMD(client, message, input) {
+    const embed = new MessageEmbed();
+
+    const cmd =
+        client.commands.get(input.toLowerCase()) ||
+        client.commands.get(client.aliases.get(input.toLowerCase()));
+
+    let info = `Нету информации о команде **${input.toLowerCase()}**`;
+
+    if (!cmd) {
+        return message.channel.send(embed.setColor('#fb644c').setAuthor(`${message.author.username}, Все команды:` , message.author.displayAvatarURL()).setFooter(message.author.username, message.author.displayAvatarURL()).setDescription(info).setThumbnail(client.user.displayAvatarURL()));
+    }
+
+    if (cmd.name) info = `**Название**: ${cmd.name}`;
+    if (cmd.aliases)
+        info += `\n**Aliases**: ${cmd.aliases.map((a) => `\`${a}\``).join(", ")}`;
+    if (cmd.description) info += `\n**Описание**: ${cmd.description}`;
+    if (cmd.usage) {
+        info += `\n**Использовать**: ${cmd.usage}`;
+        embed.setFooter(`Syntax: <> = required, [] = optional`);
+    }
+    if (cmd.timeout) info += "\n**Перерыв**: " + ms(cmd.timeout);
+    return message.channel.send(embed.setColor('#fb644c').setAuthor(`${message.author.username}` , message.author.displayAvatarURL()).setDescription(info).setFooter(message.author.username, message.author.displayAvatarURL()).setThumbnail(client.user.displayAvatarURL()));
+}

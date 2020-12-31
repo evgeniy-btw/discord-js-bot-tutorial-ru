@@ -1,0 +1,19 @@
+{
+  "name": "test-biot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "evgen1y#2170",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "common-tags": "^1.8.0",
+    "discord.js": "^12.5.1",
+    "fs": "0.0.1-security",
+    "ms": "^2.1.3",
+    "os": "^0.1.1"
+  }
+}
